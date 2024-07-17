@@ -1,0 +1,137 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+//import Logo from '@/layouts/full/logo/LogoDark.vue';
+/*Social icons*/
+import google from '@/assets/images/svgs/google-icon.svg';
+import facebook from '@/assets/images/svgs/facebook-icon.svg';
+import { useUserStore } from '@/stores/apps/user/user';
+const store = useUserStore();
+
+const confirmPassword = ref('');
+const checkbox = ref(false);
+const valid = ref(true);
+const show1 = ref(false);
+const password = ref('');
+const email = ref('');
+const passwordRules = ref([
+    (v: string) => !!v || 'Password is required',
+    (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+]);
+const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const fname = ref('');
+const fnameRules = ref([
+    (v: string) => !!v || 'Name is required',
+    (v: string) => (v && v.length <= 10) || 'Name must be less than 10 characters'
+]);
+
+const form = ref();
+const myButtonElement = ref<HTMLButtonElement | null>(null);
+
+const submitForm = () => {
+    if (myButtonElement.value) {
+        // Agregar una clase al botón
+        myButtonElement.value.classList.add('btn-clicked');
+
+        // Quitar el evento click del botón
+        myButtonElement.value.removeEventListener('click', submitForm);
+    }
+
+    if (form.value.validate()) {
+        if (
+            fname.value != '' &&
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) &&
+            password.value != '' &&
+            password.value == confirmPassword.value
+        ) {
+            // const formData = [
+            //     'name'=> fname.value,
+            //     'email': email.value,
+            //     'password': password.value,
+            // ];
+
+            store
+                .saveUser({ name: fname.value, email: email.value, password: password.value, password_confirmation: confirmPassword.value })
+                .then((response) => {
+                    const currentUrl = window.location.origin;
+                    window.location.href = currentUrl + '/usuarios';
+                })
+                .catch((error) => {
+                    if (myButtonElement.value) {
+                        myButtonElement.value.classList.remove('btn-clicked');
+                        myButtonElement.value.addEventListener('click', submitForm);
+                    }
+
+                    console.error('Error submitting form:', error.response.data);
+                    alert('There was an error submitting the form.');
+                });
+        } else {
+            console.log('datos invalidos');
+        }
+
+        // Aquí puedes manejar el envío del formulario, por ejemplo, llamando a una API
+    } else {
+        if (myButtonElement.value) {
+            myButtonElement.value.classList.remove('btn-clicked');
+            myButtonElement.value.addEventListener('click', submitForm);
+        }
+        alert('Form is not valid');
+    }
+};
+</script>
+<template>
+    <v-row class="d-flex mb-6">
+        <v-col cols="6" sm="6" class="pr-2">
+            <v-btn variant="outlined" size="large" class="border text-subtitle-1" block>
+                <img :src="google" height="20" class="mr-2" alt="google" />
+                <span class="d-sm-flex d-none mr-1">Sign up with</span>Google
+            </v-btn>
+        </v-col>
+        <v-col cols="6" sm="6" class="pl-2">
+            <v-btn variant="outlined" size="large" class="border text-subtitle-1" block>
+                <img :src="facebook" width="25" height="30" class="mr-1" alt="facebook" />
+                <span class="d-sm-flex d-none mr-1">Sign up with</span>FB
+            </v-btn>
+        </v-col>
+    </v-row>
+    <div class="d-flex align-center text-center mb-6">
+        <div class="text-h6 w-100 px-5 font-weight-regular auth-divider position-relative">
+            <span class="bg-surface px-5 py-3 position-relative">or sign in with</span>
+        </div>
+    </div>
+    <v-form ref="form" v-model="valid" lazy-validation action="/pages/boxedlogin" class="mt-5">
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Name</v-label>
+        <VTextField v-model="fname" :rules="fnameRules" required></VTextField>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Email Adddress</v-label>
+        <VTextField v-model="email" :rules="emailRules" required></VTextField>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
+        <VTextField
+            v-model="password"
+            :counter="10"
+            :rules="passwordRules"
+            required
+            variant="outlined"
+            type="password"
+            color="primary"
+        ></VTextField>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Confirm Password</v-label>
+        <VTextField
+            :counter="10"
+            :rules="passwordRules"
+            required
+            variant="outlined"
+            type="password"
+            color="primary"
+            maxlength="10"
+            v-model="confirmPassword"
+        ></VTextField>
+        <v-btn size="large" class="mt-2" color="primary" block submit flat @click="submitForm" ref="btn_registro" v-model="myButtonElement"
+            >Sign Up</v-btn
+        >
+    </v-form>
+</template>
+
+<style>
+.btn-clicked {
+    background-color: rgb(207, 204, 204) !important;
+}
+</style>
