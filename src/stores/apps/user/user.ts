@@ -31,7 +31,7 @@ export const useUserStore = defineStore({
             this.is_loading = true;
             try {
                 const response = await axiosClient.get(`/user`, { params: this.params });
-                this.users = response.data;
+                this.users = response.data.data;
                 this.is_loading = false;
             } catch (error) {
                 alert(error);
@@ -40,7 +40,7 @@ export const useUserStore = defineStore({
             }
         },
         async saveUser(params?: Object) {
-            let url = `/registrarUsuario`;
+            let url = `/register`;
             try {
                 const response = await axiosClient.post(url, params);
                 this.user = response.data.user;

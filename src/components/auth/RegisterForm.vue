@@ -11,18 +11,15 @@ const confirmPassword = ref('');
 const checkbox = ref(false);
 const valid = ref(true);
 const show1 = ref(false);
-const password = ref('');
+const rfc = ref('');
 const email = ref('');
 const passwordRules = ref([
     (v: string) => !!v || 'Password is required',
     (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
 ]);
 const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
-const fname = ref('');
-const fnameRules = ref([
-    (v: string) => !!v || 'Name is required',
-    (v: string) => (v && v.length <= 10) || 'Name must be less than 10 characters'
-]);
+const employee_id = ref('');
+const employeeIdRules = ref([(v: string) => !!v || 'El número de empleado es requiredo']);
 
 const form = ref();
 const myButtonElement = ref<HTMLButtonElement | null>(null);
@@ -37,12 +34,7 @@ const submitForm = () => {
     }
 
     if (form.value.validate()) {
-        if (
-            fname.value != '' &&
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) &&
-            password.value != '' &&
-            password.value == confirmPassword.value
-        ) {
+        if (employee_id.value != '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) && rfc.value != '') {
             // const formData = [
             //     'name'=> fname.value,
             //     'email': email.value,
@@ -50,10 +42,14 @@ const submitForm = () => {
             // ];
 
             store
-                .saveUser({ name: fname.value, email: email.value, password: password.value, password_confirmation: confirmPassword.value })
+                .saveUser({
+                    employee_id: employee_id.value,
+                    email: email.value,
+                    rfc: rfc.value
+                })
                 .then((response) => {
                     const currentUrl = window.location.origin;
-                    window.location.href = currentUrl + '/usuarios';
+                    // window.location.href = currentUrl + '/usuarios';
                 })
                 .catch((error) => {
                     if (myButtonElement.value) {
@@ -79,7 +75,7 @@ const submitForm = () => {
 };
 </script>
 <template>
-    <v-row class="d-flex mb-6">
+    <!-- <v-row class="d-flex mb-6">
         <v-col cols="6" sm="6" class="pr-2">
             <v-btn variant="outlined" size="large" class="border text-subtitle-1" block>
                 <img :src="google" height="20" class="mr-2" alt="google" />
@@ -92,18 +88,20 @@ const submitForm = () => {
                 <span class="d-sm-flex d-none mr-1">Sign up with</span>FB
             </v-btn>
         </v-col>
-    </v-row>
+    </v-row> -->
     <div class="d-flex align-center text-center mb-6">
         <div class="text-h6 w-100 px-5 font-weight-regular auth-divider position-relative">
-            <span class="bg-surface px-5 py-3 position-relative">or sign in with</span>
+            <span class="bg-surface px-5 py-3 position-relative">Registro</span>
         </div>
     </div>
     <v-form ref="form" v-model="valid" lazy-validation action="/pages/boxedlogin" class="mt-5">
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Name</v-label>
-        <VTextField v-model="fname" :rules="fnameRules" required></VTextField>
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Email Adddress</v-label>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Número de empleado</v-label>
+        <VTextField v-model="employee_id" :rules="employeeIdRules" required></VTextField>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">RFC</v-label>
+        <VTextField v-model="rfc" :rules="rfcRules" required></VTextField>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Email</v-label>
         <VTextField v-model="email" :rules="emailRules" required></VTextField>
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
+        <!-- <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
         <VTextField
             v-model="password"
             :counter="10"
@@ -123,9 +121,9 @@ const submitForm = () => {
             color="primary"
             maxlength="10"
             v-model="confirmPassword"
-        ></VTextField>
+        ></VTextField> -->
         <v-btn size="large" class="mt-2" color="primary" block submit flat @click="submitForm" ref="btn_registro" v-model="myButtonElement"
-            >Sign Up</v-btn
+            >Registrar</v-btn
         >
     </v-form>
 </template>

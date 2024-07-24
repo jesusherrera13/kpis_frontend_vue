@@ -19,11 +19,10 @@ onMounted(() => {
 });
 
 const getUsers: any = computed(() => {
-    // return store.users;
-    return store.users.map((item: any) => {
-        var email_verified_at = item.email_verified_at;
-        return { ...item, email_verified_at: email_verified_at ? email_verified_at.substring(0, 10) : null };
-    });
+    return store.users;
+    // return store.users.map((user: any) => {
+    //     return user;
+    // });
 });
 
 const getRoles: any = computed(() => {
@@ -74,7 +73,6 @@ const headers: any = ref([
     { title: 'Nombre', align: 'start', key: 'name' },
     { title: 'Email', align: 'start', key: 'email' },
     { title: 'Rol', align: 'start', key: 'rol' },
-    { title: 'Verificado', align: 'start', key: 'email_verified_at' },
     { title: 'Acciones', align: 'end', key: 'actions', sortable: false }
 ]);
 

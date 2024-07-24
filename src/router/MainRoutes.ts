@@ -106,6 +106,11 @@ const MainRoutes = {
             name: 'Equipo Perfil',
             path: '/equipo/profile/:id',
             component: () => import('@/views/apps/configuracion/equipo-profile/Profile.vue')
+        },
+        {
+            name: 'Sincronizacion',
+            path: '/cloud',
+            component: () => import('@/views/dashboards/provider/Provider.vue')
         }
     ]
 };
