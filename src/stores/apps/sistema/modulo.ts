@@ -39,7 +39,6 @@ export const useModuloStore = defineStore({
             try {
                 const response = await axiosClient.get(`/acceso-modulos`, { params: this.params });
                 this.modulos = response.data.data;
-                console.log('this: ', this.modulos);
                 this.is_loading = false;
             } catch (error) {
                 alert(error);

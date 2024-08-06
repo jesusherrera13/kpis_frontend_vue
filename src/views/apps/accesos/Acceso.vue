@@ -6,6 +6,8 @@ import AppBaseCard from '@/components/shared/AppBaseCard.vue';
 import ChatListing from '@/components/apps/accesos/ChatListing.vue';
 import ChatDetail from '@/components/apps/accesos/ChatDetail.vue';
 import ChatProfile from '@/components/apps/accesos/ChatProfile.vue';
+import AccesoModulo from '@/components/apps/accesos/AccesoModulo.vue';
+import AccesoPlaza from '@/components/apps/accesos/AccesoPlaza.vue';
 
 // theme breadcrumb
 const page = ref({ title: 'Chat app' });
@@ -28,11 +30,13 @@ const breadcrumbs = ref([
     <v-card elevation="10">
         <AppBaseCard>
             <template v-slot:leftpart>
-                <!-- <ChatProfile /> -->
+                <ChatProfile />
                 <ChatListing />
             </template>
             <template v-slot:rightpart>
                 <ChatDetail />
+                <AccesoModulo />
+                <AccesoPlaza />
             </template>
 
             <template v-slot:mobileLeftContent>

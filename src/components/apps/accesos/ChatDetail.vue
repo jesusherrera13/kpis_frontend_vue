@@ -123,7 +123,7 @@ watch([() => storeModulo.access_user_modules], () => {
             </div>
             <v-divider />
             <!---Chat History-->
-            <perfect-scrollbar class="rightpartHeight">
+            <!-- <perfect-scrollbar class="rightpartHeight">
                 <div class="d-flex">
                     <div id="d-accesos" class="w-100">
                         <div v-for="item in getModulos" class="ma-1">
@@ -135,28 +135,13 @@ watch([() => storeModulo.access_user_modules], () => {
                             />
                             {{ item.nombre }}
                         </div>
-
-                        <!-- <v-checkbox
-                            v-for="item in getModulos"
-                            v-model="selected"
-                            :value="item.id"
-                            @click="handleClick(item)"
-                            density="compact"
-                        >
-                            <template v-slot:label>
-                                <div :class="`ml-${(item.nivel - 1) * 4}`">
-                                    {{ item.nombre }}
-                                </div>
-                            </template>
-                        </v-checkbox> -->
                     </div>
                     <div class="right-sidebar" v-if="Rpart">
                         <v-sheet>
-                            <!-- <ChatInfo :chatDetail="chatDetail" /> -->
                         </v-sheet>
                     </div>
                 </div>
-            </perfect-scrollbar>
+            </perfect-scrollbar> -->
         </div>
         <v-divider />
         <!---Chat send-->

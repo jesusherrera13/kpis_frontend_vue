@@ -7,7 +7,8 @@ import facebook from '@/assets/images/svgs/facebook-icon.svg';
 import { useUserStore } from '@/stores/apps/user/user';
 const store = useUserStore();
 
-const confirmPassword = ref('');
+const password = ref('');
+const password_confirmation = ref('');
 const checkbox = ref(false);
 const valid = ref(true);
 const show1 = ref(false);
@@ -45,7 +46,9 @@ const submitForm = () => {
                 .saveUser({
                     employee_id: employee_id.value,
                     email: email.value,
-                    rfc: rfc.value
+                    rfc: rfc.value,
+                    password: password.value,
+                    password_confirmation: password_confirmation.value
                 })
                 .then((response) => {
                     const currentUrl = window.location.origin;
@@ -101,7 +104,7 @@ const submitForm = () => {
         <VTextField v-model="rfc" :rules="rfcRules" required></VTextField>
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Email</v-label>
         <VTextField v-model="email" :rules="emailRules" required></VTextField>
-        <!-- <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
         <VTextField
             v-model="password"
             :counter="10"
@@ -120,8 +123,8 @@ const submitForm = () => {
             type="password"
             color="primary"
             maxlength="10"
-            v-model="confirmPassword"
-        ></VTextField> -->
+            v-model="password_confirmation"
+        ></VTextField>
         <v-btn size="large" class="mt-2" color="primary" block submit flat @click="submitForm" ref="btn_registro" v-model="myButtonElement"
             >Registrar</v-btn
         >

@@ -22,6 +22,7 @@ const headers: any = ref([{ title: 'Nombre', align: 'start', key: 'name' }]);
 
 const items = ref(getUsers);
 function handleClick(event: any, row: any) {
+    console.log('store.user: ', row);
     store.user = { ...row.item, thumb: './assets/images/profile/user-1.jpg' };
 }
 </script>
