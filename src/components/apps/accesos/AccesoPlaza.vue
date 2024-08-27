@@ -16,11 +16,7 @@ const getEmpresaPlaza: any = computed(() => {
     let response = [];
 
     for (var i in storeAccesoPlaza.empresas_plazas) {
-<<<<<<< HEAD
         var compania: any = storeAccesoPlaza.empresas_plazas[i];
-=======
-        var compania = storeAccesoPlaza.empresas_plazas[i];
->>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
         response.push({
             id: compania.id,
             nombre: compania.company_name,
@@ -90,11 +86,7 @@ watch([() => store.user.id], () => {
 
     // storeAccesoPlaza.accessUserModules(store.user.id);
 });
-<<<<<<< HEAD
-/* 
-=======
-
->>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
+/*
 watch([() => storeAccesoPlaza.access_user_modules], () => {
     let tmp = storeAccesoPlaza.access_user_modules.map((item: any) => {
         return item.modulo_id;
@@ -110,11 +102,7 @@ watch([() => storeAccesoPlaza.access_user_modules], () => {
             if (tmp[j] == _checkbox.getAttribute('dbid')) _checkbox.checked = true;
         }
     }
-<<<<<<< HEAD
 }); */
-=======
-});
->>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
 </script>
 <template>
     <v-row>
