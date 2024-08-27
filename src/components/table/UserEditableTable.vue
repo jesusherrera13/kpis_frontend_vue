@@ -55,7 +55,8 @@ const editedItem = ref({
     updated_at: '',
     password: '',
     password_confirmation: '',
-    rol_id: ''
+    rol_id: '',
+    verificar: ''
 });
 
 const defaultItem = ref({
@@ -67,7 +68,8 @@ const defaultItem = ref({
     updated_at: '',
     password: '',
     password_confirmation: '',
-    rol_id: ''
+    rol_id: '',
+    verificar: ''
 });
 
 const headers: any = ref([
@@ -105,8 +107,6 @@ function close() {
 
 function save() {
     Object.assign(store.user, editedItem.value);
-
-    console.log(editedItem.value);
 
     let response;
     if (store.user.id) response = store.update();
@@ -159,9 +159,10 @@ const formTitle = computed(() => {
                         <v-form ref="form" v-model="valid" lazy-validation>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-text-field variant="outlined" hide-details v-model="editedItem.name" label="Usuario"></v-text-field>
+                                    <!-- <v-text-field variant="outlined" hide-details v-model="editedItem.name" label="Usuario"></v-text-field> -->
+                                    <h3>{{ editedItem.name }}</h3>
                                 </v-col>
-                                <v-col cols="12">
+                                <!-- <v-col cols="12">
                                     <v-text-field
                                         variant="outlined"
                                         hide-details
@@ -169,8 +170,8 @@ const formTitle = computed(() => {
                                         label="Correo electronico"
                                         type="email"
                                     ></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
+                                </v-col> -->
+                                <!-- <v-col cols="12">
                                     <v-text-field
                                         variant="outlined"
                                         hide-details
@@ -187,7 +188,7 @@ const formTitle = computed(() => {
                                         label="Confirmar contraseña"
                                         type="password"
                                     ></v-text-field>
-                                </v-col>
+                                </v-col> -->
                                 <v-col cols="12" sm="12">
                                     <v-select
                                         variant="outlined"
@@ -198,6 +199,10 @@ const formTitle = computed(() => {
                                         v-model="editedItem.rol_id"
                                         label="Rol de usuario"
                                     ></v-select>
+                                </v-col>
+
+                                <v-col cols="12" sm="12" v-if="!editedItem.email_verified_at">
+                                    <v-checkbox v-model="editedItem.verificar" label="Verificar" type="checkbox" value="1"></v-checkbox>
                                 </v-col>
                             </v-row>
                         </v-form>

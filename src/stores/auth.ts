@@ -14,21 +14,31 @@ export const useAuthStore = defineStore({
         token: localStorage.getItem(`${app_name}_user`),
         returnUrl: null,
         system_modules: [],
-        auth_sidebar: []
+        auth_sidebar: [],
+        error: false,
+        message: ''
     }),
     actions: {
         async login(email: string, password: string) {
             const response = await axiosClient.post(`/login`, { email: email, password: password });
 
+            // console.log('response: ', response);
+
             // update pinia state
-            this.user = response.data.user;
-            this.token = response.data.token;
-            // store user details and jwt in local storage to keep user logged in between page refreshes
-            localStorage.setItem(`${app_name}_user`, JSON.stringify(this.user));
-            localStorage.setItem(`${app_name}_token`, this.token || '');
-            // redirect to previous url or default to home page
-            // router.push(this.returnUrl || '/dashboards/modern');
-            router.push(this.returnUrl || '/');
+            if (!response.data.success) {
+                this.error = true;
+                this.message = response.data.message;
+            } else if (response.data.success) {
+                this.error = false;
+                this.user = response.data.user;
+                this.token = response.data.token;
+                // store user details and jwt in local storage to keep user logged in between page refreshes
+                localStorage.setItem(`${app_name}_user`, JSON.stringify(this.user));
+                localStorage.setItem(`${app_name}_token`, this.token || '');
+                // redirect to previous url or default to home page
+                // router.push(this.returnUrl || '/dashboards/modern');
+                router.push(this.returnUrl || '/');
+            }
         },
         async logout() {
             await axiosClient.post(`/logout`).then((res) => {
