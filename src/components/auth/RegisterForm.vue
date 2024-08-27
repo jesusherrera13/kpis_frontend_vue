@@ -6,6 +6,7 @@ import { router } from '@/router';
 import { useUserStore } from '@/stores/apps/user/user';
 const store = useUserStore();
 
+<<<<<<< HEAD
 onMounted(() => {
     store.error = false;
     store.message = '';
@@ -13,6 +14,10 @@ onMounted(() => {
 
 const password = ref('123');
 const password_confirmation = ref('123');
+=======
+const password = ref('');
+const password_confirmation = ref('');
+>>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
 const checkbox = ref(false);
 const valid = ref(true);
 const show1 = ref(false);
@@ -140,7 +145,11 @@ const hola = () => {
         <VTextField v-model="rfc" :rules="rfcRules" required></VTextField>
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Email</v-label>
         <VTextField v-model="email" :rules="emailRules" required></VTextField>
+<<<<<<< HEAD
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Contraseña</v-label>
+=======
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
+>>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
         <VTextField
             v-model="password"
             :counter="10"

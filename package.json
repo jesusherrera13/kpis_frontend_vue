@@ -1,5 +1,5 @@
 {
-    "name": "kpis",
+    "name": "ims",
     "version": "3.0.0",
     "scripts": {
         "dev": "vite",
