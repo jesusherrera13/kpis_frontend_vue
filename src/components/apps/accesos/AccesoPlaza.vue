@@ -16,7 +16,7 @@ const getEmpresaPlaza: any = computed(() => {
     let response = [];
 
     for (var i in storeAccesoPlaza.empresas_plazas) {
-        var compania = storeAccesoPlaza.empresas_plazas[i];
+        var compania: any = storeAccesoPlaza.empresas_plazas[i];
         response.push({
             id: compania.id,
             nombre: compania.company_name,
@@ -86,7 +86,7 @@ watch([() => store.user.id], () => {
 
     // storeAccesoPlaza.accessUserModules(store.user.id);
 });
-
+/*
 watch([() => storeAccesoPlaza.access_user_modules], () => {
     let tmp = storeAccesoPlaza.access_user_modules.map((item: any) => {
         return item.modulo_id;
@@ -102,7 +102,7 @@ watch([() => storeAccesoPlaza.access_user_modules], () => {
             if (tmp[j] == _checkbox.getAttribute('dbid')) _checkbox.checked = true;
         }
     }
-});
+}); */
 </script>
 <template>
     <v-row>

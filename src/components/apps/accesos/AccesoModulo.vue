@@ -66,7 +66,6 @@ watch([() => storeModulo.access_user_modules], () => {
         var _checkbox = inputElements[i] as HTMLInputElement;
         // storeModulo.access_user_modules;
         for (var j in tmp) {
-            console.log(tmp[j], _checkbox.getAttribute('dbid'));
             if (tmp[j] == _checkbox.getAttribute('dbid')) _checkbox.checked = true;
         }
     }

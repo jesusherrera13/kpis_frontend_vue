@@ -130,7 +130,7 @@ const MainRoutes = {
         {
             name: 'Equipo Perfil',
             path: '/equipo/profile/:id',
-            component: () => import('@/views/apps/configuracion/equipo-profile/Profile.vue')
+            component: () => import('@/views/apps/configuracion/equipo-profile/Followers.vue')
         },
         {
             name: 'Sincronizacion',

@@ -15,13 +15,9 @@ export const useEquipoStore = defineStore({
             departamento_id: ''
         },
         params: {},
-        is_loading: false
+        is_loading: false,
+        integrantes: []
     }),
-    getters: {
-        getEquipos(state) {
-            return state.equipos;
-        }
-    },
     actions: {
         // Fetch followers from action
         async fetchEquipos() {
@@ -49,10 +45,10 @@ export const useEquipoStore = defineStore({
                 this.is_loading = false;
             }
         },
-        async show() {
+        async show(id: any) {
             this.is_loading = true;
             try {
-                const response = await axiosClient.get(`/equipo/${this.equipo.id}`);
+                const response = await axiosClient.get(`/equipo/${id}`);
                 this.equipo = response.data;
                 this.is_loading = false;
             } catch (error) {
@@ -80,6 +76,30 @@ export const useEquipoStore = defineStore({
             } catch (error) {
                 alert(error);
                 console.log(error);
+                this.is_loading = false;
+            }
+        },
+        async fetchIntegrantes(equipo_id: any) {
+            this.is_loading = true;
+            try {
+                const response = await axiosClient.post(`/equipo-integrantes`, { equipo_id: equipo_id });
+                this.integrantes = response.data;
+                this.is_loading = false;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+                this.is_loading = false;
+            }
+        },
+        async storeIntegrantes(items: Object) {
+            this.is_loading = true;
+            try {
+                const response = await axiosClient.post(`/equipo-store-integrantes`, { items: items });
+                // this.equipos = response.data;
+                this.is_loading = false;
+            } catch (error) {
+                alert(error);
+                // console.log(error);
                 this.is_loading = false;
             }
         }

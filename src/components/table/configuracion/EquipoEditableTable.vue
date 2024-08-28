@@ -48,13 +48,13 @@ const companias = ref(getDepartamentos);
 const editedItem = ref({
     id: '',
     nombre: '',
-    departamento_id: ''
+    department_id: ''
 });
 
 const defaultItem = ref({
     id: '',
     nombre: '',
-    departamento_id: ''
+    department_id: ''
 });
 
 const headers: any = ref([
@@ -152,7 +152,7 @@ const formTitle = computed(() => {
                                         :items="companias"
                                         item-title="department_name"
                                         item-value="id"
-                                        v-model="editedItem.departamento_id"
+                                        v-model="editedItem.department_id"
                                         label="Departamento"
                                     ></v-autocomplete>
                                 </v-col>
@@ -165,7 +165,7 @@ const formTitle = computed(() => {
                         <v-btn color="error" @click="close">Cancelar</v-btn>
                         <v-btn
                             color="secondary"
-                            :disabled="editedItem.nombre == '' || editedItem.departamento_id == ''"
+                            :disabled="editedItem.nombre == '' || editedItem.department_id == ''"
                             variant="flat"
                             @click="save"
                             >Guardar</v-btn

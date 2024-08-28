@@ -1,29 +1,55 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 //import Logo from '@/layouts/full/logo/LogoDark.vue';
 /*Social icons*/
-import google from '@/assets/images/svgs/google-icon.svg';
-import facebook from '@/assets/images/svgs/facebook-icon.svg';
+import { router } from '@/router';
 import { useUserStore } from '@/stores/apps/user/user';
 const store = useUserStore();
 
-const password = ref('');
-const password_confirmation = ref('');
+onMounted(() => {
+    store.error = false;
+    store.message = '';
+});
+
+const password = ref('123');
+const password_confirmation = ref('123');
 const checkbox = ref(false);
 const valid = ref(true);
 const show1 = ref(false);
-const rfc = ref('');
-const email = ref('');
+
+const employee_id = ref('5073');
+const rfc = ref('HEQJ770213HL5');
+const email = ref('jesus.herrera@alerta.com.mx');
 const passwordRules = ref([
     (v: string) => !!v || 'Password is required',
-    (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+    (v: string) => (v && v.length != 13) || 'Password must have 13 characters'
+]);
+
+const rfcRules = ref([
+    (v: string) => !!v || 'RFC is required',
+    (v: string) => (v && v.length == 13) || 'El RFC debe tener de 13 caracteres'
 ]);
 const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
-const employee_id = ref('');
 const employeeIdRules = ref([(v: string) => !!v || 'El número de empleado es requiredo']);
 
 const form = ref();
 const myButtonElement = ref<HTMLButtonElement | null>(null);
+
+const errors = computed(() => {
+    return store.errors;
+});
+
+const message = computed(() => {
+    return store.message;
+});
+
+const auth_error = computed(() => {
+    return store.error;
+});
+
+const alert = ref(false);
+const dialog = ref(false);
+const dialog_register = ref(false);
 
 const submitForm = () => {
     if (myButtonElement.value) {
@@ -52,6 +78,9 @@ const submitForm = () => {
                 })
                 .then((response) => {
                     const currentUrl = window.location.origin;
+                    alert.value = store.alert;
+                    dialog_register.value = store.alert;
+                    // console.log('errors: ', errors.value);
                     // window.location.href = currentUrl + '/usuarios';
                 })
                 .catch((error) => {
@@ -75,6 +104,13 @@ const submitForm = () => {
         }
         alert('Form is not valid');
     }
+};
+
+const hola = () => {
+    store.error = false;
+    store.alert = false;
+    store.message = '';
+    router.push('/auth/login');
 };
 </script>
 <template>
@@ -104,7 +140,7 @@ const submitForm = () => {
         <VTextField v-model="rfc" :rules="rfcRules" required></VTextField>
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Email</v-label>
         <VTextField v-model="email" :rules="emailRules" required></VTextField>
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Contraseña</v-label>
         <VTextField
             v-model="password"
             :counter="10"
@@ -114,7 +150,7 @@ const submitForm = () => {
             type="password"
             color="primary"
         ></VTextField>
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Confirm Password</v-label>
+        <v-label class="text-subtitle-1 font-weight-medium pb-2">Confirmar contraseña</v-label>
         <VTextField
             :counter="10"
             :rules="passwordRules"
@@ -128,6 +164,38 @@ const submitForm = () => {
         <v-btn size="large" class="mt-2" color="primary" block submit flat @click="submitForm" ref="btn_registro" v-model="myButtonElement"
             >Registrar</v-btn
         >
+        <!--  <v-alert
+            v-if="auth_error"
+            v-model="alert"
+            border="start"
+            close-label="Close Alert"
+            color="warning"
+            title="Error en autenticación"
+            variant="tonal"
+            closable
+            class="mt-2"
+        >
+            {{ message }}
+        </v-alert> -->
+        <!-- <v-dialog v-model="dialog" width="auto">
+            <v-card max-width="400" prepend-icon="mdi-alert-circle" :text="message" title="Error en autenticación">
+                <template v-slot:actions>
+                    <v-btn class="ms-auto" text="Cerrar" @click="dialog = false"></v-btn>
+                </template>
+            </v-card>
+        </v-dialog> -->
+
+        <div v-if="auth_error" class="mt-2">
+            <v-alert color="error">{{ message }}</v-alert>
+        </div>
+
+        <v-dialog v-model="dialog_register" width="auto" persistent>
+            <v-card max-width="400" prepend-icon="mdi-alert-circle" :text="message" title="Usuario registrado">
+                <template v-slot:actions>
+                    <v-btn class="ms-auto" text="Iniciar sesión" @click="hola"></v-btn>
+                </template>
+            </v-card>
+        </v-dialog>
     </v-form>
 </template>
 
