@@ -6,7 +6,6 @@ import { router } from '@/router';
 import { useUserStore } from '@/stores/apps/user/user';
 const store = useUserStore();
 
-<<<<<<< HEAD
 onMounted(() => {
     store.error = false;
     store.message = '';
@@ -14,17 +13,13 @@ onMounted(() => {
 
 const password = ref('123');
 const password_confirmation = ref('123');
-=======
-const password = ref('');
-const password_confirmation = ref('');
->>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
 const checkbox = ref(false);
 const valid = ref(true);
 const show1 = ref(false);
 
 const employee_id = ref('5073');
 const rfc = ref('HEQJ770213HL5');
-const email = ref('jesusherrera13@gmail.com');
+const email = ref('jesus.herrera@alerta.com.mx');
 const passwordRules = ref([
     (v: string) => !!v || 'Password is required',
     (v: string) => (v && v.length != 13) || 'Password must have 13 characters'
@@ -145,11 +140,7 @@ const hola = () => {
         <VTextField v-model="rfc" :rules="rfcRules" required></VTextField>
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Email</v-label>
         <VTextField v-model="email" :rules="emailRules" required></VTextField>
-<<<<<<< HEAD
         <v-label class="text-subtitle-1 font-weight-medium pb-2">Contraseña</v-label>
-=======
-        <v-label class="text-subtitle-1 font-weight-medium pb-2">Password</v-label>
->>>>>>> baf5c44457433675e47257f55fd837c2f17f4e16
         <VTextField
             v-model="password"
             :counter="10"

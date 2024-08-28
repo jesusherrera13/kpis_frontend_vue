@@ -1,19 +1,63 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue';
+import { ref, shallowRef, watch, computed } from 'vue';
 import { HeartIcon, PhotoIcon, UserCircleIcon, UsersIcon } from 'vue-tabler-icons';
 import profileBg from '@/assets/images/backgrounds/profilebg.jpg';
 import UserImage from '@/assets/images/profile/user-1.jpg';
+import { useUserStore } from '@/stores/apps/user/user';
+import { useEquipoStore } from '@/stores/apps/equipo/equipo';
 
 const tab = ref(null);
+const storeUser = useUserStore();
+const storeEquipo = useEquipoStore();
+
 const items = shallowRef([
-    { tab: 'Perfil', icon: UserCircleIcon, href: '/apps/equipo/profile' },
-    { tab: 'Historial', icon: HeartIcon, href: '/apps/equipo/profile/followers' },
-    { tab: 'Viáticos', icon: UsersIcon, href: '/apps/equipo/profile/friends' },
-    { tab: 'Empresa', icon: PhotoIcon, href: '/apps/equipo/profile/gallery' }
+    { tab: 'Profile', icon: UserCircleIcon, href: '/apps/user/profile' },
+    { tab: 'Followers', icon: HeartIcon, href: '/apps/user/profile/followers' },
+    { tab: 'Friends', icon: UsersIcon, href: '/apps/user/profile/friends' },
+    { tab: 'Gallery', icon: PhotoIcon, href: '/apps/user/profile/gallery' }
 ]);
+
+const dialog = ref(false);
+const search = ref('');
+const search_u = ref('');
+
+function close() {
+    dialog.value = false;
+}
+
+const headers: any = ref([
+    { title: 'Nombre', align: 'start', key: 'name' },
+    { title: 'Acciones', align: 'end', key: 'actions', sortable: false }
+]);
+
+const getUsers: any = computed(() => {
+    // return store.users;
+    return storeUser.users.map((item: any) => {
+        return { ...item };
+    });
+});
+
+const usuarios_disponibles = ref(getUsers);
 
 const props = defineProps({
     equipo: Object || Array
+});
+
+function hola() {
+    storeUser.fetchUsers();
+}
+
+function agregarIntegrante(item: any) {
+    // console.log(props.equipo?.id, item.id);
+    let response = storeEquipo.storeIntegrantes([{ equipo_id: props.equipo?.id, user_id: item.id }]);
+    response.then(() => {
+        storeEquipo.fetchIntegrantes(props.equipo?.id);
+        dialog.value = false;
+    });
+}
+
+watch([() => dialog], () => {
+    console.log('dialog ', dialog);
 });
 </script>
 
@@ -27,18 +71,18 @@ const props = defineProps({
                         <v-row class="justify-center">
                             <v-col cols="4" class="text-center">
                                 <FileDescriptionIcon size="20" />
-                                <h4 class="text-h4">4</h4>
-                                <h6 class="text-h6 font-weight-regular">Viáticos</h6>
+                                <h4 class="text-h4">938</h4>
+                                <h6 class="text-h6 font-weight-regular">Posts</h6>
                             </v-col>
                             <v-col cols="4" class="text-center">
                                 <UserCircleIcon size="20" />
-                                <h4 class="text-h4">$43,586</h4>
-                                <h6 class="text-h6 font-weight-regular">Solicitudes</h6>
+                                <h4 class="text-h4">3,586</h4>
+                                <h6 class="text-h6 font-weight-regular">Followers</h6>
                             </v-col>
                             <v-col cols="4" class="text-center">
                                 <UserCheckIcon size="20" />
-                                <h4 class="text-h4">6</h4>
-                                <h6 class="text-h6 font-weight-regular">Plazas</h6>
+                                <h4 class="text-h4">2,659</h4>
+                                <h6 class="text-h6 font-weight-regular">Following</h6>
                             </v-col>
                         </v-row>
                     </div>
@@ -51,7 +95,7 @@ const props = defineProps({
                             </v-avatar>
                         </div>
                         <h5 class="text-h5 mt-3">{{ equipo?.nombre }}</h5>
-                        <span class="text-h6 font-weight-regular">{{ equipo?.rol }}</span>
+                        <span class="text-h6 font-weight-regular">{{ equipo?.departamento }}</span>
                     </div>
                 </v-col>
                 <v-col cols="12" lg="4" class="d-flex align-center justify-center justify-lg-end order-sm-third">
@@ -68,7 +112,87 @@ const props = defineProps({
                         <v-btn icon variant="flat" size="x-small" color="primary" class="btn-brand-youtube"
                             ><BrandYoutubeIcon size="16"
                         /></v-btn>
-                        <v-btn variant="flat" color="primary">Add to Story</v-btn>
+
+                        <v-dialog v-model="dialog" max-width="800" persistent>
+                            <template v-slot:activator="{ props }">
+                                <v-btn color="primary" v-bind="props" flat class="ml-auto" @click="hola">
+                                    <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Agregar integrante
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title class="pa-4 bg-secondary">
+                                    <span class="title text-white">Integrantes</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <v-text-field
+                                                density="compact"
+                                                v-model="search_u"
+                                                label="Buscar"
+                                                hide-details
+                                                variant="outlined"
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <v-data-table
+                                                items-per-page="10"
+                                                :headers="headers"
+                                                :items="usuarios_disponibles"
+                                                :search="search_u"
+                                                class="border rounded-md"
+                                                density="compact"
+                                            >
+                                                <template v-slot:item.actions="{ item }">
+                                                    <v-btn
+                                                        color="primary"
+                                                        v-bind="props"
+                                                        flat
+                                                        class="ml-auto"
+                                                        @click="agregarIntegrante(item)"
+                                                    >
+                                                        <v-icon class="mr-2">mdi-account-multiple-plus</v-icon>Agregar
+                                                    </v-btn>
+                                                    <!-- <v-menu>
+                                                        <template v-slot:activator="{ props }">
+                                                            <v-btn icon="mdi-dots-vertical" v-bind="props" variant="plain"></v-btn>
+                                                        </template>
+
+                                                        <v-list density="compact" nav>
+                                                            <v-list-item
+                                                                value="editar"
+                                                                prepend-icon="mdi-square-edit-outline"
+                                                                @click="editItem(item)"
+                                                            >
+                                                                <v-list-item-title>Editar</v-list-item-title>
+                                                            </v-list-item>
+                                                            <v-list-item value="configurar" prepend-icon="mdi-cog" @click="goTo(item)">
+                                                                <v-list-item-title>Configurar</v-list-item-title>
+                                                            </v-list-item>
+                                                            <v-list-item
+                                                                value="eliminar"
+                                                                prepend-icon="mdi-delete"
+                                                                @click="deleteItem(item)"
+                                                            >
+                                                                <v-list-item-title>Eliminar</v-list-item-title>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-menu> -->
+                                                </template>
+                                            </v-data-table>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+
+                                <v-card-actions class="pa-4">
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="error" @click="close">Cerrar</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </div>
                 </v-col>
                 <v-col md="12" class="order-sm-last">
