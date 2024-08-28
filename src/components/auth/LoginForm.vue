@@ -15,7 +15,7 @@ const show1 = ref(false);
 const password = ref('admin123');
 const username = ref('master@gmail.com');
 const passwordRules = ref([
-    (v: string) => !!v || 'Password is required',
+    (v: string) => !!v || 'La contraseña es requireda',
     (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
 ]);
 const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);

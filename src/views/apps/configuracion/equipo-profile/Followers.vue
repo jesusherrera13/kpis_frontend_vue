@@ -60,74 +60,7 @@ const actionDD = ref([
 const page = ref({ title: 'Perfil de Equipo' });
 
 const filteredCards = computed(() => {
-    /* return [
-        {
-            id: '#1Followers_Barney',
-            avatar: user6,
-            name: 'Barney',
-            location: 'Handburgh',
-            follow: 1
-        },
-        {
-            id: '#2Followers_Thea',
-            avatar: user3,
-            name: 'Thea',
-            location: 'New jana',
-            follow: 2
-        },
-        {
-            id: '#3Followers_Guiseppe',
-            avatar: user7,
-            name: 'Guiseppe',
-            location: 'Jenkinsstad',
-            follow: 1
-        },
-        {
-            id: '#4Followers_Henderson',
-            avatar: user8,
-            name: 'Henderson',
-            location: 'South Antonina',
-            follow: 1
-        },
-        {
-            id: '#5Followers_Maddison',
-            avatar: user6,
-            name: 'Maddison',
-            location: 'New Dorthy',
-            follow: 1
-        },
-        {
-            id: '#6Followers_Wilber',
-            avatar: user1,
-            name: 'Wilber',
-            location: 'Twilahsven',
-            follow: 1
-        },
-        {
-            id: '#7Followers_Hayden',
-            avatar: user4,
-            name: 'Hayden',
-            location: 'Darrelshaire',
-            follow: 1
-        },
-        {
-            id: '#8Followers_Lloyd',
-            avatar: user10,
-            name: 'Lloyd',
-            location: 'New Credrick',
-            follow: 1
-        },
-        {
-            id: '#9Followers_Kris',
-            avatar: user8,
-            name: 'Kris',
-            location: 'New Dianna',
-            follow: 1
-        }
-    ]; */
-
     return getIntegrantes.value.filter((integrante: any) => {
-        console.log(integrante);
         return integrante.nombre.toLowerCase().includes(searchValue.value.toLowerCase());
     });
 });
@@ -137,6 +70,11 @@ const breadcrumbs = ref([
         text: 'Dashboard',
         disabled: false,
         href: '/'
+    },
+    {
+        text: 'Equipos',
+        disabled: false,
+        href: '/equipos'
     },
     {
         text: 'Perfil de Equipo',

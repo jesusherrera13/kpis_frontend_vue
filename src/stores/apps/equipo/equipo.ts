@@ -18,11 +18,6 @@ export const useEquipoStore = defineStore({
         is_loading: false,
         integrantes: []
     }),
-    getters: {
-        getEquipos(state) {
-            return state.equipos;
-        }
-    },
     actions: {
         // Fetch followers from action
         async fetchEquipos() {
@@ -93,6 +88,18 @@ export const useEquipoStore = defineStore({
             } catch (error) {
                 alert(error);
                 console.log(error);
+                this.is_loading = false;
+            }
+        },
+        async storeIntegrantes(items: Object) {
+            this.is_loading = true;
+            try {
+                const response = await axiosClient.post(`/equipo-store-integrantes`, { items: items });
+                // this.equipos = response.data;
+                this.is_loading = false;
+            } catch (error) {
+                alert(error);
+                // console.log(error);
                 this.is_loading = false;
             }
         }
