@@ -3,13 +3,14 @@ import { ref, shallowRef } from 'vue';
 import { HeartIcon, PhotoIcon, UserCircleIcon, UsersIcon } from 'vue-tabler-icons';
 import profileBg from '@/assets/images/backgrounds/profilebg.jpg';
 import UserImage from '@/assets/images/profile/user-1.jpg';
+import { eq } from 'lodash';
 
 const tab = ref(null);
 const items = shallowRef([
-    { tab: 'Perfil', icon: UserCircleIcon, href: '/apps/equipo/profile' },
-    { tab: 'Historial', icon: HeartIcon, href: '/apps/equipo/profile/followers' },
-    { tab: 'Viáticos', icon: UsersIcon, href: '/apps/equipo/profile/friends' },
-    { tab: 'Empresa', icon: PhotoIcon, href: '/apps/equipo/profile/gallery' }
+    { tab: 'Profile', icon: UserCircleIcon, href: '/apps/user/profile' },
+    { tab: 'Followers', icon: HeartIcon, href: '/apps/user/profile/followers' },
+    { tab: 'Friends', icon: UsersIcon, href: '/apps/user/profile/friends' },
+    { tab: 'Gallery', icon: PhotoIcon, href: '/apps/user/profile/gallery' }
 ]);
 
 const props = defineProps({
@@ -27,18 +28,18 @@ const props = defineProps({
                         <v-row class="justify-center">
                             <v-col cols="4" class="text-center">
                                 <FileDescriptionIcon size="20" />
-                                <h4 class="text-h4">4</h4>
-                                <h6 class="text-h6 font-weight-regular">Viáticos</h6>
+                                <h4 class="text-h4">938</h4>
+                                <h6 class="text-h6 font-weight-regular">Posts</h6>
                             </v-col>
                             <v-col cols="4" class="text-center">
                                 <UserCircleIcon size="20" />
-                                <h4 class="text-h4">$43,586</h4>
-                                <h6 class="text-h6 font-weight-regular">Solicitudes</h6>
+                                <h4 class="text-h4">3,586</h4>
+                                <h6 class="text-h6 font-weight-regular">Followers</h6>
                             </v-col>
                             <v-col cols="4" class="text-center">
                                 <UserCheckIcon size="20" />
-                                <h4 class="text-h4">6</h4>
-                                <h6 class="text-h6 font-weight-regular">Plazas</h6>
+                                <h4 class="text-h4">2,659</h4>
+                                <h6 class="text-h6 font-weight-regular">Following</h6>
                             </v-col>
                         </v-row>
                     </div>
@@ -51,7 +52,7 @@ const props = defineProps({
                             </v-avatar>
                         </div>
                         <h5 class="text-h5 mt-3">{{ equipo?.nombre }}</h5>
-                        <span class="text-h6 font-weight-regular">{{ equipo?.rol }}</span>
+                        <span class="text-h6 font-weight-regular">{{ equipo?.departamento }}</span>
                     </div>
                 </v-col>
                 <v-col cols="12" lg="4" class="d-flex align-center justify-center justify-lg-end order-sm-third">
