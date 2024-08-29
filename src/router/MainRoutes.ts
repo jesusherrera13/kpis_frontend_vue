@@ -7,7 +7,7 @@ const MainRoutes = {
     component: () => import('@/layouts/full/FullLayout.vue'),
     children: [
         {
-            name: 'Dashboard',
+            name: 'Dashboards',
             path: '/',
             redirect: '/dashboards/analytical'
         },
@@ -17,9 +17,34 @@ const MainRoutes = {
             component: () => import('@/views/dashboards/analytical/Analytical.vue')
         },
         {
+            name: 'Analytical',
+            path: '/dashboards/analytical',
+            component: () => import('@/views/dashboards/analytical/Analytical.vue'),
+        },
+        {
             name: 'Classic',
             path: '/dashboards/classic',
-            component: () => import('@/views/dashboards/classic/Classic.vue')
+            component: () => import('@/views/dashboards/classic/Classic.vue'),
+        },
+        {
+            name: 'Demographical',
+            path: '/dashboards/demographical',
+            component: () => import('@/views/dashboards/demographical/Demographical.vue'),
+        },
+        {
+            name: 'Minimal',
+            path: '/dashboards/minimal',
+            component: () => import('@/views/dashboards/minimal/Minimal.vue'),
+        },
+        {
+            name: 'Ecommerce',
+            path: '/dashboards/ecommerce',
+            component: () => import('@/views/dashboards/ecommerce/Ecommerce.vue'),
+        },
+        {
+            name: 'Modern',
+            path: '/dashboards/modern',
+            component: () => import('@/views/dashboards/modern/Modern.vue'),
         },
         {
             name: 'Demographical',

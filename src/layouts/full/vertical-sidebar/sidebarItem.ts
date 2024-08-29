@@ -2,9 +2,14 @@ import {
     MenuIcon,
     CircleIcon,
     CircleOffIcon,
+     ApertureIcon,
+    ChartPieIcon,
     BrandChromeIcon,
     MoodSmileIcon,
+    FlagIcon,
     StarIcon,
+    CpuIcon,
+    ShoppingCartIcon,
     AwardIcon,
     WorldUpIcon,
     UsersGroupIcon,
@@ -29,6 +34,36 @@ export interface menu {
 
 const sidebarItem: menu[] = [
     { header: 'Dashboard' },
+    {
+        title: "Analytical",
+        icon: ChartPieIcon,
+        to: "/dashboards/analytical",
+      },
+      {
+        title: "Classic",
+        icon: CoffeeIcon,
+        to: "/dashboards/classic",
+      },
+      {
+        title: "Demographical",
+        icon: CpuIcon,
+        to: "/dashboards/demographical",
+      },
+      {
+        title: "Minimal",
+        icon: FlagIcon,
+        to: "/dashboards/minimal",
+      },
+      {
+        title: "eCommerce",
+        icon: ShoppingCartIcon,
+        to: "/dashboards/ecommerce",
+      },
+      {
+        title: "Modern",
+        icon: ApertureIcon,
+        to: "/dashboards/modern",
+      },
     {
         title: 'Estadísticas',
         icon: CoffeeIcon,
