@@ -72,7 +72,117 @@ const getAuthSideBar: any = computed(() => {
     // return authStore.auth_sidebar;
 });
 
+const getDashboards: any = computed(() => {
+    return [
+        {
+            id: 1,
+            header: 'Dashboards',
+            route: null,
+            icon: null,
+            orden: null,
+            parent_id: null
+        },
+        {
+            id: 2,
+            title: 'Analythical',
+            to: '/',
+            icon: {
+                name: BrandChromeIcon,
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        }
+        /* {
+            id: 2,
+            title: 'Classical',
+            to: '/',
+            icon: {
+                name: BrandChromeIcon,
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        },
+        {
+            id: 2,
+            title: 'Demographical',
+            to: '/',
+            icon: {
+                name: BrandChromeIcon,
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        },
+        {
+            id: 2,
+            title: 'Minimal',
+            to: '/',
+            icon: {
+                name: BrandChromeIcon,
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        },
+        {
+            id: 2,
+            title: 'eCommerce',
+            to: '/',
+            icon: {
+                name: BrandChromeIcon,
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        },
+        {
+            id: 2,
+            title: 'Classical',
+            to: '/',
+            icon: {
+                name: 'BrandChromeIcon',
+                props: {
+                    size: {
+                        type: [null, null],
+                        default: 24
+                    }
+                }
+            },
+            orden: null,
+            parent_id: 1
+        } */
+    ];
+});
+
 const sidebarMenu = ref(getSideBarMenu);
+const dashboards = ref(getDashboards);
 </script>
 
 <template>
