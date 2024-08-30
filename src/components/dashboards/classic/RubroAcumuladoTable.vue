@@ -44,7 +44,7 @@ const getData = computed(() => {
         icon: AnchorIcon,
         number: '$31,687'
     } */
-    return storeDashboard.acumulado_rubro.map((item) => {
+    return storeDashboard.acumulado_rubro.map((item: any) => {
         console.log(item);
         return { ...item, iconcolor: 'bg-primary', icon: DeviceDesktopIcon, img: img1, statuscolor: 'success', statustext: 'Alto' };
     });

@@ -47,7 +47,7 @@ const auth_error = computed(() => {
     return store.error;
 });
 
-const alert = ref(false);
+// const alert = ref(false);
 const dialog = ref(false);
 const dialog_register = ref(false);
 
@@ -78,7 +78,7 @@ const submitForm = () => {
                 })
                 .then((response) => {
                     const currentUrl = window.location.origin;
-                    alert.value = store.alert;
+                    // alert.value = store.alert;
                     dialog_register.value = store.alert;
                     // console.log('errors: ', errors.value);
                     // window.location.href = currentUrl + '/usuarios';
