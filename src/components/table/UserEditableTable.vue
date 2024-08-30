@@ -41,7 +41,10 @@ const getRoles: any = computed(() => {
 
 const valid = ref(true);
 const dialog = ref(false);
+const dialog_password = ref(false);
+const loading = ref(false);
 const search = ref('');
+const message = ref('');
 const editedIndex = ref(-1);
 const items = ref(getUsers);
 const roles = ref(getRoles);
@@ -55,7 +58,8 @@ const editedItem = ref({
     updated_at: '',
     password: '',
     password_confirmation: '',
-    rol_id: ''
+    rol_id: '',
+    verificar: ''
 });
 
 const defaultItem = ref({
@@ -67,7 +71,8 @@ const defaultItem = ref({
     updated_at: '',
     password: '',
     password_confirmation: '',
-    rol_id: ''
+    rol_id: '',
+    verificar: ''
 });
 
 const headers: any = ref([
@@ -106,8 +111,6 @@ function close() {
 function save() {
     Object.assign(store.user, editedItem.value);
 
-    console.log(editedItem.value);
-
     let response;
     if (store.user.id) response = store.update();
     else response = store.store();
@@ -133,6 +136,29 @@ function goTo(item: any) {
 const formTitle = computed(() => {
     return editedItem.value.id ? 'Editar usuario' : 'Nuevo usuario';
 });
+
+function toogleDialogPassword(item: any) {
+    message.value = '¿Desea restabler la contraseña?';
+    editedItem.value = Object.assign({}, item);
+    dialog_password.value = true;
+}
+
+function closeDialogPassword() {
+    dialog_password.value = false;
+    editedItem.value = Object.assign({}, defaultItem.value);
+    editedIndex.value = -1;
+}
+
+function passwordReset() {
+    let xhr = store.passwordReset(editedItem.value.id);
+    loading.value = true;
+    xhr.then((response) => {
+        if (response.status == 200) {
+            message.value = response.data.message;
+            loading.value = false;
+        }
+    });
+}
 </script>
 <template>
     <v-row>
@@ -159,34 +185,8 @@ const formTitle = computed(() => {
                         <v-form ref="form" v-model="valid" lazy-validation>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-text-field variant="outlined" hide-details v-model="editedItem.name" label="Usuario"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field
-                                        variant="outlined"
-                                        hide-details
-                                        v-model="editedItem.email"
-                                        label="Correo electronico"
-                                        type="email"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field
-                                        variant="outlined"
-                                        hide-details
-                                        v-model="editedItem.password"
-                                        label="Contraseña"
-                                        type="password"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field
-                                        variant="outlined"
-                                        hide-details
-                                        v-model="editedItem.password_confirmation"
-                                        label="Confirmar contraseña"
-                                        type="password"
-                                    ></v-text-field>
+                                    <!-- <v-text-field variant="outlined" hide-details v-model="editedItem.name" label="Usuario"></v-text-field> -->
+                                    <h3>{{ editedItem.name }}</h3>
                                 </v-col>
                                 <v-col cols="12" sm="12">
                                     <v-select
@@ -199,16 +199,44 @@ const formTitle = computed(() => {
                                         label="Rol de usuario"
                                     ></v-select>
                                 </v-col>
+
+                                <v-col cols="12" sm="12" v-if="!editedItem.email_verified_at">
+                                    <v-checkbox v-model="editedItem.verificar" label="Verificar" type="checkbox" value="1"></v-checkbox>
+                                </v-col>
                             </v-row>
                         </v-form>
                     </v-card-text>
 
                     <v-card-actions class="pa-4">
                         <v-spacer></v-spacer>
-                        <v-btn color="error" @click="close">Cancelar</v-btn>
+                        <v-btn color="error" @click="close">Cerrar</v-btn>
                         <v-btn color="secondary" :disabled="editedItem.name == '' || editedItem.email == ''" variant="flat" @click="save"
                             >Guardar</v-btn
                         >
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="dialog_password" max-width="500" persistent>
+                <v-card>
+                    <v-card-title class="pa-4 bg-secondary">
+                        <span class="title text-white">Password reset</span>
+                    </v-card-title>
+
+                    <v-card-text>
+                        <v-form ref="form" v-model="valid" lazy-validation>
+                            <v-row>
+                                <v-col cols="12">
+                                    <h3>{{ message }}</h3>
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                    </v-card-text>
+
+                    <v-card-actions class="pa-4">
+                        <v-spacer></v-spacer>
+                        <v-btn color="error" @click="closeDialogPassword">Cerrar</v-btn>
+                        <v-btn color="secondary" :disabled="loading" variant="flat" @click="passwordReset">Reset</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -239,6 +267,9 @@ const formTitle = computed(() => {
                             </v-list-item>
                             <v-list-item value="eliminar" prepend-icon="mdi-delete" @click="deleteItem(item)">
                                 <v-list-item-title>Eliminar</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item value="eliminar" prepend-icon="mdi-account-key" @click="toogleDialogPassword(item)">
+                                <v-list-item-title>Password reset</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>

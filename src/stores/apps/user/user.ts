@@ -18,13 +18,12 @@ export const useUserStore = defineStore({
         is_loading: false,
         token: localStorage.getItem(`${app_name}_user`),
         returnUrl: null,
-        user_modulos: []
+        user_modulos: [],
+        alert: false,
+        message: '',
+        errors: [],
+        error: false
     }),
-    getters: {
-        getUsers(state) {
-            return state.users;
-        }
-    },
     actions: {
         // Fetch followers from action
         async fetchUsers() {
@@ -42,17 +41,34 @@ export const useUserStore = defineStore({
         async saveUser(params?: Object) {
             let url = `/register`;
             try {
-                const response = await axiosClient.post(url, params);
-                this.user = response.data.user;
-                this.token = response.data.token;
+                const response: any = await axiosClient.post(url, params);
+                // this.user = response.data.user;
+                // this.token = response.data.token;
                 // store user details and jwt in local storage to keep user logged in between page refreshes
-                localStorage.setItem(`${app_name}_user`, JSON.stringify(this.user));
-                localStorage.setItem(`${app_name}_token`, this.token || '');
+                // localStorage.setItem(`${app_name}_user`, JSON.stringify(this.user));
+                // localStorage.setItem(`${app_name}_token`, this.token || '');
+                if (!response.data.success) {
+                    // console.log('response: ', response.data);
+                    // this.alert = true;
+                    this.message = response.data.message;
+                    // this.errors = response.message;
+                    // console.log(this.message);
+                    this.error = true;
+                } else if (response.data.success == true) {
+                    this.alert = true;
+                    this.message = 'El usuario ha sido registrado. En espera de autorización del Administrador';
+                    console.log('mmimimi');
+                }
                 // redirect to previous url or default to home page
                 // router.push(this.returnUrl || '/dashboards/modern');
-            } catch (error) {
-                alert(error);
-                console.log(error);
+            } catch (error: any) {
+                console.log('error: ', error);
+                this.error = true;
+                // this.alert = true;
+                this.message = error.response.data.message || 'Error';
+                // console.log('xxx: ', error);
+                // this.errors = error.errors;
+                // console.log('errors: ', error);
             }
         },
         async store() {
@@ -102,9 +118,11 @@ export const useUserStore = defineStore({
             }
         },
         async userModules(user_id: any) {
-            console.log(user_id);
             const response = await axiosClient.post(`/auth-user-modules`, { user_id: user_id });
             this.user_modulos = response.data.data;
+        },
+        async passwordReset(user_id: any) {
+            return await axiosClient.post(`/password-reset/${user_id}`);
         }
     }
 });

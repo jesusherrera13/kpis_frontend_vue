@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 import { revenueCardsData } from '@/_mockApis/components/dashboards/ClassicData';
 </script>
 <template>
     <v-row>
-        <v-col cols="12" lg="3" sm="6" v-for="revenuecard in revenueCardsData" :revenuecard="revenuecard"
-            :key="revenuecard.title" class="py-0 mb-3">
+        <v-col
+            cols="12"
+            lg="3"
+            sm="6"
+            v-for="revenuecard in revenueCardsData"
+            :revenuecard="revenuecard"
+            :key="revenuecard.title"
+            class="py-0 mb-3"
+        >
             <VCard elevation="10">
                 <v-card-text class="pa-5">
                     <div class="d-flex align-center">
@@ -26,6 +33,3 @@ import { revenueCardsData } from '@/_mockApis/components/dashboards/ClassicData'
         </v-col>
     </v-row>
 </template>
-  
-  
-  

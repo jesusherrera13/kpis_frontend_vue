@@ -7,14 +7,64 @@ const MainRoutes = {
     component: () => import('@/layouts/full/FullLayout.vue'),
     children: [
         {
-            name: 'Dashboard',
+            name: 'Dashboards',
             path: '/',
-            component: () => import('@/views/dashboards/classic/Classic.vue')
+            redirect: '/dashboards/analytical'
+        },
+        {
+            name: 'Analytical',
+            path: '/dashboards/analytical',
+            component: () => import('@/views/dashboards/analytical/Analytical.vue')
+        },
+        {
+            name: 'Analytical',
+            path: '/dashboards/analytical',
+            component: () => import('@/views/dashboards/analytical/Analytical.vue'),
         },
         {
             name: 'Classic',
             path: '/dashboards/classic',
-            component: () => import('@/views/dashboards/classic/Classic.vue')
+            component: () => import('@/views/dashboards/classic/Classic.vue'),
+        },
+        {
+            name: 'Demographical',
+            path: '/dashboards/demographical',
+            component: () => import('@/views/dashboards/demographical/Demographical.vue'),
+        },
+        {
+            name: 'Minimal',
+            path: '/dashboards/minimal',
+            component: () => import('@/views/dashboards/minimal/Minimal.vue'),
+        },
+        {
+            name: 'Ecommerce',
+            path: '/dashboards/ecommerce',
+            component: () => import('@/views/dashboards/ecommerce/Ecommerce.vue'),
+        },
+        {
+            name: 'Modern',
+            path: '/dashboards/modern',
+            component: () => import('@/views/dashboards/modern/Modern.vue'),
+        },
+        {
+            name: 'Demographical',
+            path: '/dashboards/demographical',
+            component: () => import('@/views/dashboards/demographical/Demographical.vue')
+        },
+        {
+            name: 'Minimal',
+            path: '/dashboards/minimal',
+            component: () => import('@/views/dashboards/minimal/Minimal.vue')
+        },
+        {
+            name: 'Ecommerce',
+            path: '/dashboards/ecommerce',
+            component: () => import('@/views/dashboards/ecommerce/Ecommerce.vue')
+        },
+        {
+            name: 'Modern',
+            path: '/dashboards/modern',
+            component: () => import('@/views/dashboards/modern/Modern.vue')
         },
         {
             name: 'Usuarios',
@@ -105,7 +155,7 @@ const MainRoutes = {
         {
             name: 'Equipo Perfil',
             path: '/equipo/profile/:id',
-            component: () => import('@/views/apps/configuracion/equipo-profile/Profile.vue')
+            component: () => import('@/views/apps/configuracion/equipo-profile/Followers.vue')
         },
         {
             name: 'Sincronizacion',
