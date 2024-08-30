@@ -16,7 +16,7 @@ const store = useEquipoStore();
 
 onMounted(() => {
     Object.assign(store.equipo, { id: route.params.id, name: '', password: '' });
-    let response = store.show();
+    let response = store.show(route.params.id);
     response.then(() => {
         Object.assign(equipo.value, store.equipo);
     });

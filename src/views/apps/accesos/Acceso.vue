@@ -36,7 +36,7 @@ const breadcrumbs = ref([
             <template v-slot:rightpart>
                 <ChatDetail />
                 <AccesoModulo />
-                <AccesoPlaza />
+                <!-- <AccesoPlaza /> -->
             </template>
 
             <template v-slot:mobileLeftContent>

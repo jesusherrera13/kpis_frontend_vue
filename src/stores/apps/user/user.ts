@@ -118,9 +118,11 @@ export const useUserStore = defineStore({
             }
         },
         async userModules(user_id: any) {
-            console.log(user_id);
             const response = await axiosClient.post(`/auth-user-modules`, { user_id: user_id });
             this.user_modulos = response.data.data;
+        },
+        async passwordReset(user_id: any) {
+            return await axiosClient.post(`/password-reset/${user_id}`);
         }
     }
 });
